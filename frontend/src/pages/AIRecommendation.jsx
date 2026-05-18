@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
+import { API_URL } from '../config/api';
 
 const AIRecommendation = () => {
   const [employees, setEmployees] = useState([]);
@@ -13,7 +14,7 @@ const AIRecommendation = () => {
     if (user) {
       const fetchEmployees = async () => {
         try {
-          const { data } = await axios.get('http://localhost:5000/api/employees', {
+          const { data } = await axios.get(`${API_URL}/api/employees`, {
             headers: { Authorization: `Bearer ${user.token}` }
           });
           setEmployees(data);
@@ -35,7 +36,7 @@ const AIRecommendation = () => {
     setRecommendation('');
     
     try {
-      const { data } = await axios.post('http://localhost:5000/api/ai/recommend', 
+      const { data } = await axios.post(`${API_URL}/api/ai/recommend`, 
         { employees, taskType },
         { headers: { Authorization: `Bearer ${user.token}` } }
       );

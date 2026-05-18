@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
+import { API_URL } from '../config/api';
 
 const AddEmployee = () => {
   const [formData, setFormData] = useState({
@@ -35,7 +36,7 @@ const AddEmployee = () => {
         experience: Number(formData.experience)
       };
 
-      await axios.post('http://localhost:5000/api/employees', employeeData, {
+      await axios.post(`${API_URL}/api/employees`, employeeData, {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       

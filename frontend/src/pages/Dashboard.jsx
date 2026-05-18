@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
+import { API_URL } from '../config/api';
 
 const Dashboard = () => {
   const [employees, setEmployees] = useState([]);
@@ -10,8 +11,8 @@ const Dashboard = () => {
   const fetchEmployees = async (dept = '') => {
     try {
       const url = dept 
-        ? `http://localhost:5000/api/employees/search?department=${dept}`
-        : 'http://localhost:5000/api/employees';
+        ? `${API_URL}/api/employees/search?department=${dept}`
+        : `${API_URL}/api/employees`;
       
       const { data } = await axios.get(url, {
         headers: { Authorization: `Bearer ${user.token}` }
@@ -41,7 +42,7 @@ const Dashboard = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this employee?')) {
       try {
-        await axios.delete(`http://localhost:5000/api/employees/${id}`, {
+        await axios.delete(`${API_URL}/api/employees/${id}`, {
           headers: { Authorization: `Bearer ${user.token}` }
         });
         fetchEmployees(searchDept);
@@ -55,7 +56,7 @@ const Dashboard = () => {
     const newScore = prompt('Enter new performance score (0-100):', currentScore);
     if (newScore !== null && !isNaN(newScore) && newScore >= 0 && newScore <= 100) {
       try {
-        await axios.put(`http://localhost:5000/api/employees/${id}`, { performanceScore: Number(newScore) }, {
+        await axios.put(`${API_URL}/api/employees/${id}`, { performanceScore: Number(newScore) }, {
           headers: { Authorization: `Bearer ${user.token}` }
         });
         fetchEmployees(searchDept);
